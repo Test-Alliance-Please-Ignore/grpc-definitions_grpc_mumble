@@ -697,15 +697,7 @@ service V1 {
 	rpc ServerEvents(Server) returns(stream Server.Event);
 	// ServerGetAllUsers(Server) returns a list of all user IDs that exist on
 	// the server.
-	// rpc ServerGetAllUsers(Server) returns (TESTDatabaseUser.IDList);
-
-	// message IDList {
-		// The server the users belong to.
-		// optional Server server = 1;
-
-		// The user IDs.
-		// repeated uint32 user_ids = 2;
-	// }
+	rpc ServerGetAllUsers(Server) returns (DatabaseUser.List);
 
 	//
 	// ContextActions
@@ -876,6 +868,8 @@ service V1 {
 	rpc DatabaseUserVerify(DatabaseUser.Verify) returns(DatabaseUser);
 	// DatabaseUserRemoveAllGroups removes the given user from all groups.
 	rpc DatabaseUserRemoveAllGroups(DatabaseUser) returns (Void);
+	// DatabaseUserGroups returns a list of the groups the user is in.
+	rpc DatabaseUserGroups(DatabaseUser) returns(Group.List);
 
 	//
 	// Audio

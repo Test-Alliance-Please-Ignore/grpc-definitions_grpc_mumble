@@ -66,6 +66,11 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Server.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Server.Event.FromString,
         )
+    self.ServerGetAllUsers = channel.unary_unary(
+        '/MurmurRPC.V1/ServerGetAllUsers',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Server.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
+        )
     self.ContextActionAdd = channel.unary_unary(
         '/MurmurRPC.V1/ContextActionAdd',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.ContextAction.SerializeToString,
@@ -246,6 +251,11 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
         )
+    self.DatabaseUserGroups = channel.unary_unary(
+        '/MurmurRPC.V1/DatabaseUserGroups',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Group.List.FromString,
+        )
     self.RedirectWhisperGroupAdd = channel.unary_unary(
         '/MurmurRPC.V1/RedirectWhisperGroupAdd',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.RedirectWhisperGroup.SerializeToString,
@@ -369,24 +379,21 @@ class V1Servicer(object):
 
   def ServerEvents(self, request, context):
     """ServerEvents returns a stream of events that happen on the given server.
-    ServerGetAllUsers(Server) returns a list of all user IDs that exist on
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ServerGetAllUsers(self, request, context):
+    """ServerGetAllUsers(Server) returns a list of all user IDs that exist on
     the server.
-    rpc ServerGetAllUsers(Server) returns (TESTDatabaseUser.IDList);
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def ContextActionAdd(self, request, context):
-    """message IDList {
-    The server the users belong to.
-    optional Server server = 1;
-
-    The user IDs.
-    repeated uint32 user_ids = 2;
-    }
-
-
+    """
     ContextActions
 
 
@@ -723,6 +730,13 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def DatabaseUserGroups(self, request, context):
+    """DatabaseUserGroups returns a list of the groups the user is in.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def RedirectWhisperGroupAdd(self, request, context):
     """
     Audio
@@ -864,6 +878,11 @@ def add_V1Servicer_to_server(servicer, server):
           servicer.ServerEvents,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Server.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Server.Event.SerializeToString,
+      ),
+      'ServerGetAllUsers': grpc.unary_unary_rpc_method_handler(
+          servicer.ServerGetAllUsers,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Server.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
       ),
       'ContextActionAdd': grpc.unary_unary_rpc_method_handler(
           servicer.ContextActionAdd,
@@ -1044,6 +1063,11 @@ def add_V1Servicer_to_server(servicer, server):
           servicer.DatabaseUserRemoveAllGroups,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
+      ),
+      'DatabaseUserGroups': grpc.unary_unary_rpc_method_handler(
+          servicer.DatabaseUserGroups,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Group.List.SerializeToString,
       ),
       'RedirectWhisperGroupAdd': grpc.unary_unary_rpc_method_handler(
           servicer.RedirectWhisperGroupAdd,
