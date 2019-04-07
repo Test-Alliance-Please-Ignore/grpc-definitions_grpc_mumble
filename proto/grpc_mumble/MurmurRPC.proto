@@ -900,6 +900,13 @@ service V1 {
 	// GroupDeleteUsers deletes users from a group.
 	rpc GroupDeleteUsers(Group) returns (Void);
 
+	// GroupAddUsersMany takes a stream of Groups and adds users to them (see
+	// GroupAddUsers).
+	rpc GroupAddUsersMany(stream Group) returns (Void);
+	// GroupDeleteUsersMany takes a stream of Groups and deletes users from
+	// them (see GroupDeleteUsers).
+	rpc GroupDeleteUsersMany(stream Group) returns (Void);
+
 	// TESTDatabaseUserRegisterMany registers multiple users. The returned list
 	// will contain names and IDs only. Users with colliding names or aliases
 	// get overwritten. If any required parameters (user.name, alias,

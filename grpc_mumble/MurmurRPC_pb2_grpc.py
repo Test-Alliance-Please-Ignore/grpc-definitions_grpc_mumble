@@ -291,6 +291,16 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Group.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
         )
+    self.GroupAddUsersMany = channel.stream_unary(
+        '/MurmurRPC.V1/GroupAddUsersMany',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Group.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
+        )
+    self.GroupDeleteUsersMany = channel.stream_unary(
+        '/MurmurRPC.V1/GroupDeleteUsersMany',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Group.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
+        )
     self.TESTDatabaseUserRegisterMany = channel.unary_unary(
         '/MurmurRPC.V1/TESTDatabaseUserRegisterMany',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
@@ -798,6 +808,22 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GroupAddUsersMany(self, request_iterator, context):
+    """GroupAddUsersMany takes a stream of Groups and adds users to them (see
+    GroupAddUsers).
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GroupDeleteUsersMany(self, request_iterator, context):
+    """GroupDeleteUsersMany takes a stream of Groups and deletes users from
+    them (see GroupDeleteUsers).
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def TESTDatabaseUserRegisterMany(self, request, context):
     """TESTDatabaseUserRegisterMany registers multiple users. The returned list
     will contain names and IDs only. Users with colliding names or aliases
@@ -1101,6 +1127,16 @@ def add_V1Servicer_to_server(servicer, server):
       ),
       'GroupDeleteUsers': grpc.unary_unary_rpc_method_handler(
           servicer.GroupDeleteUsers,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Group.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
+      ),
+      'GroupAddUsersMany': grpc.stream_unary_rpc_method_handler(
+          servicer.GroupAddUsersMany,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Group.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
+      ),
+      'GroupDeleteUsersMany': grpc.stream_unary_rpc_method_handler(
+          servicer.GroupDeleteUsersMany,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Group.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
       ),
