@@ -306,6 +306,11 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
         )
+    self.TESTDatabaseUserRegisterManyStreaming = channel.stream_unary(
+        '/MurmurRPC.V1/TESTDatabaseUserRegisterManyStreaming',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
+        )
     self.TESTDatabaseUserUpdateMany = channel.unary_unary(
         '/MurmurRPC.V1/TESTDatabaseUserUpdateMany',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
@@ -838,6 +843,13 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def TESTDatabaseUserRegisterManyStreaming(self, request_iterator, context):
+    """Same as TESTDatabaseUserRegisterMany, but takes a stream instead.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def TESTDatabaseUserUpdateMany(self, request, context):
     """TESTDatabaseUserUpdate updates multiple users. Users with colliding
     names or aliases get overwritten. Parameters that are left out are
@@ -1143,6 +1155,11 @@ def add_V1Servicer_to_server(servicer, server):
       'TESTDatabaseUserRegisterMany': grpc.unary_unary_rpc_method_handler(
           servicer.TESTDatabaseUserRegisterMany,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
+      ),
+      'TESTDatabaseUserRegisterManyStreaming': grpc.stream_unary_rpc_method_handler(
+          servicer.TESTDatabaseUserRegisterManyStreaming,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
       ),
       'TESTDatabaseUserUpdateMany': grpc.unary_unary_rpc_method_handler(

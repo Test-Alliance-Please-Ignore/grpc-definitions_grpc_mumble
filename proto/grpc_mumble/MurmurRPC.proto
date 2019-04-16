@@ -916,6 +916,8 @@ service V1 {
 	// Note that only name on the DatabaseUser should be set, none of the other
 	// fields.
 	rpc TESTDatabaseUserRegisterMany(TESTDatabaseUser.List) returns(DatabaseUser.List);
+	// Same as TESTDatabaseUserRegisterMany, but takes a stream instead.
+	rpc TESTDatabaseUserRegisterManyStreaming(stream TESTDatabaseUser) returns (DatabaseUser.List);
 	// TESTDatabaseUserUpdate updates multiple users. Users with colliding
 	// names or aliases get overwritten. Parameters that are left out are
 	// unchanged. Returns a list of DatabaseUsers (with only IDs) that were
