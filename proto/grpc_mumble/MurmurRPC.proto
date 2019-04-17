@@ -866,8 +866,6 @@ service V1 {
 	// DatabaseUserVerify verifies the that the given user-password pair is
 	// correct.
 	rpc DatabaseUserVerify(DatabaseUser.Verify) returns(DatabaseUser);
-	// DatabaseUserRemoveAllGroups removes the given user from all groups.
-	rpc DatabaseUserRemoveAllGroups(DatabaseUser) returns (Void);
 	// DatabaseUserGroups returns a list of the groups the user is in.
 	rpc DatabaseUserGroups(DatabaseUser) returns(Group.List);
 
@@ -915,10 +913,8 @@ service V1 {
 	//
 	// Note that only name on the DatabaseUser should be set, none of the other
 	// fields.
-	rpc TESTDatabaseUserRegisterMany(TESTDatabaseUser.List) returns(DatabaseUser.List);
-	// Same as TESTDatabaseUserRegisterMany, but takes a stream instead.
-	rpc TESTDatabaseUserRegisterManyStreaming(stream TESTDatabaseUser) returns (DatabaseUser.List);
-	// TESTDatabaseUserUpdate updates multiple users. Users with colliding
+	rpc TESTDatabaseUserRegisterMany(stream TESTDatabaseUser) returns (DatabaseUser.List);
+	// TESTDatabaseUserUpdateMany updates multiple users. Users with colliding
 	// names or aliases get overwritten. Parameters that are left out are
 	// unchanged. Returns a list of DatabaseUsers (with only IDs) that were
 	// successfully updated. The server on each user is ignored, use the server
@@ -926,7 +922,5 @@ service V1 {
 	//
 	// Note that only name on the DatabaseUser should be set, none of the other
 	// fields.
-	rpc TESTDatabaseUserUpdateMany(TESTDatabaseUser.List) returns(DatabaseUser.List);
-	// Same as TESTDatabaseUserUpdateMany, but takes a stream instead.
-	rpc TESTDatabaseUserUpdateManyStreaming(stream TESTDatabaseUser) returns(DatabaseUser.List);
+	rpc TESTDatabaseUserUpdateMany(stream TESTDatabaseUser) returns(DatabaseUser.List);
 }

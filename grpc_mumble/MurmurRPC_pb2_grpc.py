@@ -246,11 +246,6 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.Verify.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.FromString,
         )
-    self.DatabaseUserRemoveAllGroups = channel.unary_unary(
-        '/MurmurRPC.V1/DatabaseUserRemoveAllGroups',
-        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.SerializeToString,
-        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
-        )
     self.DatabaseUserGroups = channel.unary_unary(
         '/MurmurRPC.V1/DatabaseUserGroups',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.SerializeToString,
@@ -301,23 +296,13 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.Group.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Void.FromString,
         )
-    self.TESTDatabaseUserRegisterMany = channel.unary_unary(
+    self.TESTDatabaseUserRegisterMany = channel.stream_unary(
         '/MurmurRPC.V1/TESTDatabaseUserRegisterMany',
-        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
-        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
-        )
-    self.TESTDatabaseUserRegisterManyStreaming = channel.stream_unary(
-        '/MurmurRPC.V1/TESTDatabaseUserRegisterManyStreaming',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
         )
-    self.TESTDatabaseUserUpdateMany = channel.unary_unary(
+    self.TESTDatabaseUserUpdateMany = channel.stream_unary(
         '/MurmurRPC.V1/TESTDatabaseUserUpdateMany',
-        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
-        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
-        )
-    self.TESTDatabaseUserUpdateManyStreaming = channel.stream_unary(
-        '/MurmurRPC.V1/TESTDatabaseUserUpdateManyStreaming',
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
         )
@@ -743,13 +728,6 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def DatabaseUserRemoveAllGroups(self, request, context):
-    """DatabaseUserRemoveAllGroups removes the given user from all groups.
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
   def DatabaseUserGroups(self, request, context):
     """DatabaseUserGroups returns a list of the groups the user is in.
     """
@@ -834,7 +812,7 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def TESTDatabaseUserRegisterMany(self, request, context):
+  def TESTDatabaseUserRegisterMany(self, request_iterator, context):
     """TESTDatabaseUserRegisterMany registers multiple users. The returned list
     will contain names and IDs only. Users with colliding names or aliases
     get overwritten. If any required parameters (user.name, alias,
@@ -848,15 +826,8 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def TESTDatabaseUserRegisterManyStreaming(self, request_iterator, context):
-    """Same as TESTDatabaseUserRegisterMany, but takes a stream instead.
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def TESTDatabaseUserUpdateMany(self, request, context):
-    """TESTDatabaseUserUpdate updates multiple users. Users with colliding
+  def TESTDatabaseUserUpdateMany(self, request_iterator, context):
+    """TESTDatabaseUserUpdateMany updates multiple users. Users with colliding
     names or aliases get overwritten. Parameters that are left out are
     unchanged. Returns a list of DatabaseUsers (with only IDs) that were
     successfully updated. The server on each user is ignored, use the server
@@ -864,13 +835,6 @@ class V1Servicer(object):
 
     Note that only name on the DatabaseUser should be set, none of the other
     fields.
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def TESTDatabaseUserUpdateManyStreaming(self, request_iterator, context):
-    """Same as TESTDatabaseUserUpdateMany, but takes a stream instead.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -1109,11 +1073,6 @@ def add_V1Servicer_to_server(servicer, server):
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.Verify.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.SerializeToString,
       ),
-      'DatabaseUserRemoveAllGroups': grpc.unary_unary_rpc_method_handler(
-          servicer.DatabaseUserRemoveAllGroups,
-          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.FromString,
-          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
-      ),
       'DatabaseUserGroups': grpc.unary_unary_rpc_method_handler(
           servicer.DatabaseUserGroups,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.FromString,
@@ -1164,23 +1123,13 @@ def add_V1Servicer_to_server(servicer, server):
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.Group.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.Void.SerializeToString,
       ),
-      'TESTDatabaseUserRegisterMany': grpc.unary_unary_rpc_method_handler(
+      'TESTDatabaseUserRegisterMany': grpc.stream_unary_rpc_method_handler(
           servicer.TESTDatabaseUserRegisterMany,
-          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.FromString,
-          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
-      ),
-      'TESTDatabaseUserRegisterManyStreaming': grpc.stream_unary_rpc_method_handler(
-          servicer.TESTDatabaseUserRegisterManyStreaming,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
       ),
-      'TESTDatabaseUserUpdateMany': grpc.unary_unary_rpc_method_handler(
+      'TESTDatabaseUserUpdateMany': grpc.stream_unary_rpc_method_handler(
           servicer.TESTDatabaseUserUpdateMany,
-          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.FromString,
-          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
-      ),
-      'TESTDatabaseUserUpdateManyStreaming': grpc.stream_unary_rpc_method_handler(
-          servicer.TESTDatabaseUserUpdateManyStreaming,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
       ),
