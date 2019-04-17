@@ -927,4 +927,6 @@ service V1 {
 	// Note that only name on the DatabaseUser should be set, none of the other
 	// fields.
 	rpc TESTDatabaseUserUpdateMany(TESTDatabaseUser.List) returns(DatabaseUser.List);
+	// Same as TESTDatabaseUserUpdateMany, but takes a stream instead.
+	rpc TESTDatabaseUserUpdateManyStreaming(stream TESTDatabaseUser) returns(DatabaseUser.List);
 }

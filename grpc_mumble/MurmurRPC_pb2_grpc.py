@@ -316,6 +316,11 @@ class V1Stub(object):
         request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.SerializeToString,
         response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
         )
+    self.TESTDatabaseUserUpdateManyStreaming = channel.stream_unary(
+        '/MurmurRPC.V1/TESTDatabaseUserUpdateManyStreaming',
+        request_serializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.SerializeToString,
+        response_deserializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.FromString,
+        )
 
 
 class V1Servicer(object):
@@ -864,6 +869,13 @@ class V1Servicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def TESTDatabaseUserUpdateManyStreaming(self, request_iterator, context):
+    """Same as TESTDatabaseUserUpdateMany, but takes a stream instead.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_V1Servicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -1165,6 +1177,11 @@ def add_V1Servicer_to_server(servicer, server):
       'TESTDatabaseUserUpdateMany': grpc.unary_unary_rpc_method_handler(
           servicer.TESTDatabaseUserUpdateMany,
           request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.List.FromString,
+          response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
+      ),
+      'TESTDatabaseUserUpdateManyStreaming': grpc.stream_unary_rpc_method_handler(
+          servicer.TESTDatabaseUserUpdateManyStreaming,
+          request_deserializer=grpc__mumble_dot_MurmurRPC__pb2.TESTDatabaseUser.FromString,
           response_serializer=grpc__mumble_dot_MurmurRPC__pb2.DatabaseUser.List.SerializeToString,
       ),
   }
